@@ -1,19 +1,35 @@
 const fs = require("fs");
-const path = require('path')
-
+const path = require("path");
 
 let fileNames = ["createFile", "readFile", "updateFile", "deleteFile"];
 let fileExt = ".js";
 let fileTemplate = `const fs = require("fs");`;
 
+let targetFolder = "src";
 
-fileNames.forEach((name) => {
-    fs.writeFile(path.join(__dirname, `./${name}${fileExt}`), fileTemplate, (err) => {
+if (fs.existsSync(targetFolder)) {
+    genFiles();
+} else {
+    fs.mkdir(path.join(__dirname, targetFolder), (err) => {
         if (err) {
-            console.error(err)
-            console.log(`Failed to write to ${name}${fileExt}`)
+            console.error(err);
+            console.log(`Failed to create ${targetFolder}`);
         } else {
-            console.log(`Sucessfully to write to ${name}${fileExt}`)
+            console.log(`Successfully created ${targetFolder}`);
+            genFiles();
         }
-    })
-})
+    });
+}
+
+function genFiles() {
+    fileNames.forEach((name) => {
+        fs.writeFile(path.join(__dirname, targetFolder, `${name}${fileExt}`), fileTemplate, (err) => {
+            if (err) {
+                console.error(err);
+                console.log(`Failed to write to ${name}${fileExt}`);
+            } else {
+                console.log(`Successfully wrote to ${name}${fileExt}`);
+            }
+        });
+    });
+}
