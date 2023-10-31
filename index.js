@@ -12,6 +12,8 @@ fileNames.forEach((name) => {
         if (err) {
             console.error(err)
             console.log(`Failed to write to ${name}${fileExt}`)
+        } else {
+            console.log(`Sucessfully to write to ${name}${fileExt}`)
         }
     })
 })
